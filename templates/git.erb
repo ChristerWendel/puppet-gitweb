@@ -1,0 +1,26 @@
+# Git configuration
+
+SetEnv GIT_HTTP_EXPORT_ALL
+SetEnv GIT_PROJECT_ROOT <%= @gitroot %>
+
+# Static resources are accelerated through Apache
+AliasMatch ^/git/(.*/objects/[0-9a-f]{2}/[0-9a-f]{38})$          <%= @gitroot %>/$1
+AliasMatch ^/git/(.*/objects/pack/pack-[0-9a-f]{40}.(pack|idx))$ <%= @gitroot %>/$1
+
+# git-http-backend
+ScriptAliasMatch \
+        "(?x)^/git/(.*/(HEAD | \
+                        info/refs | \
+                        objects/(info/[^/]+ | \
+                                 [0-9a-f]{2}/[0-9a-f]{38} | \
+                                 pack/pack-[0-9a-f]{40}\.(pack|idx)) | \
+                        git-(upload|receive)-pack))$" \
+        /usr/lib/git-core/git-http-backend/$1
+
+# gitweb
+Alias /git /usr/share/gitweb
+
+<Directory /usr/share/gitweb>
+  Options +FollowSymLinks +ExecCGI
+  AddHandler cgi-script .cgi
+</Directory>
