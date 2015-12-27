@@ -8,7 +8,7 @@ describe 'gitweb', :type => :class do
     .with_owner('root')
     .with_group('root')
     .with_mode('0644')
-    .that_comes_before('Apache::loadmodule[cgi]')
+    .that_comes_before('Apache::loadmodule[cgid]')
   }
 
   it { should contain_file('/etc/apache2/conf-available/git.conf')

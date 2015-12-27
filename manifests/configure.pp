@@ -10,7 +10,7 @@ class gitweb::configure {
     group   => 'root',
     mode    => '0644',
     content => template('gitweb/gitweb.erb'),
-  } -> apache::loadmodule{'cgi': }
+  } -> apache::loadmodule{'cgid': }
 
   file { '/etc/apache2/conf-available/git.conf':
     ensure  => present,
